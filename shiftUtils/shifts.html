@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+			crossorigin="anonymous"
+		/>
+		<link rel="stylesheet" href="../style.css" />
+
+		<title>Shifts</title>
+	</head>
+	<body onload="showName();getShifts()" class="bg-success bg-opacity-25">
+		<header class="container-fluid fixed-top p-3">
+			Welcome <span id="fullname"></span>!
+			<button
+				type="button"
+				class="btn btn-outline-light"
+				onclick="window.location.href='../../login.html'"
+			>
+				log out
+			</button>
+			<button
+				type="button"
+				class="btn btn-outline-light"
+				onclick="window.location.href='../../homepage.html'"
+			>
+				homepage
+			</button>
+		</header>
+		<div class="container text-center p-3">
+			<h1 class="display-1">shifts</h1>
+			<div class="mb-3 p-3 row justify-content-center">
+				<div class="col-sm-2">
+					<button
+						type="button"
+						class="btn btn-outline-light"
+						onclick="window.location.href='./addShift.html'"
+					>
+						Add Shift to employee
+					</button>
+				</div>
+			</div>
+			<div class="mb-3 row justify-content-center">
+				<table class="table table-bordered">
+					<tbody id="tBody">
+						<tr>
+							<td>Employee</td>
+							<td>Date</td>
+							<td>Starts At</td>
+							<td>Ends At</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<footer class="text-center p-3 fixed-bottom">
+			Nily Friedman's Techinon Project
+		</footer>
+		<script>
+			function counterFunc() {
+				let num = +sessionStorage.getItem("number of actions");
+				let currentNum = +localStorage.count;
+
+				if (typeof Storage !== "undefined") {
+					if (currentNum < num) {
+						localStorage.count = Number(localStorage.count) + 1;
+						console.log(localStorage.count);
+					} else {
+						alert("you used up all you actions for today");
+						window.location.href = "../../login.html";
+					}
+				}
+			}
+
+			function showName() {
+				let fullName = sessionStorage.getItem("full name");
+
+				document.getElementById("fullname").innerText = fullName;
+			}
+
+			async function getShifts() {
+				let resp = await fetch("https://localhost:7266/shift/all");
+				let shifts = await resp.json();
+
+				let tableObj = document.getElementById("tBody");
+
+				shifts.forEach((shift) => {
+					let ulObj = document.createElement("ul");
+
+					employeeNames = shift.employees;
+
+					employeeData = [];
+
+					employeeNames.forEach((emp) => {
+						let l = document.createElement("li");
+
+						let a = document.createElement("a");
+
+						let name = `${emp.firstName} with id: ${emp.employeeId}`;
+
+						let globalEmployeeId = emp.employeeId;
+						let globalEmployeeName = emp.firstName;
+
+						a.innerText = name;
+
+						a.className = "dynamicLink";
+						a.style.display = "block";
+						a.style.border = "none";
+
+						a.href = `../employeeUtils/editEmployee.html?employeeId=${emp.employeeId}`;
+
+						l.appendChild(a);
+
+						ulObj.appendChild(l);
+						employeeData.push(emp.employeeId);
+					});
+
+					let tdObj = document.createElement("td");
+
+					tdObj.appendChild(ulObj);
+
+					let date = document.createElement("td");
+
+					date.innerText = shift.date;
+
+					date.innerText = date.innerText.replace("T00:00:00", "");
+
+					let startTime = document.createElement("td");
+					startTime.innerText = shift.startTime + ":00";
+
+					let endTime = document.createElement("td");
+					endTime.innerText = shift.endTime + ":00";
+
+					let editLinkObj = document.createElement("a");
+					let deleteLinkObj = document.createElement("button");
+
+					let id = shift.id;
+
+					let trObj = document.createElement("tr");
+
+					trObj.appendChild(tdObj);
+					trObj.appendChild(date);
+					trObj.appendChild(startTime);
+					trObj.appendChild(endTime);
+
+					tableObj.appendChild(trObj);
+				});
+			}
+			counterFunc();
+		</script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+			crossorigin="anonymous"
+		></script>
+	</body>
+</html>

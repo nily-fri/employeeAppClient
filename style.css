@@ -1,0 +1,48 @@
+.deleteButton {
+	font-size: large;
+	margin: 8px;
+	border-radius: 20;
+	border: none;
+	color: #f8f9fa;
+	border-radius: 0.375rem;
+	font-size: 1rem;
+}
+
+.deleteButton:hover {
+	font-size: large;
+	margin: 10px;
+	border-radius: 20;
+	border: 1px solid #f8f9fa;
+	color: rgba(25, 135, 84, 0.25);
+	background-color: #f8f9fa;
+	border-radius: 0.375rem;
+	font-size: 1rem;
+}
+
+.dynamicLink {
+	font-size: large;
+	margin: 10px;
+	border-radius: 20;
+	border: none;
+	color: #f8f9fa;
+	border-radius: 0.375rem;
+	font-size: 1rem;
+	text-decoration: none;
+}
+
+.dynamicLink:hover {
+	font-size: large;
+	margin: 10px;
+	border-radius: 20;
+	border: 1px solid #f8f9fa;
+	color: rgba(25, 135, 84, 0.25);
+	background-color: #f8f9fa;
+	border-radius: 0.375rem;
+	font-size: 1rem;
+}
+
+ul {
+list-style-type: none;	
+text-align: center;
+padding-left: initial;
+}
